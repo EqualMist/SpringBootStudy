@@ -2,13 +2,13 @@ server:
   port: 8081
 
 spring:
-  security:
-    user:
-      name: Elysia
-      password: 123456
-      roles:
-        - user
-        - admin
+
+  datasource:
+    url: jdbc:mysql://10.2.14.249:33406/zdb_bm
+    username: root
+    password: root@!^*
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
 
 test:
   name: yaml_value

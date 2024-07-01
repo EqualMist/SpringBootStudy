@@ -21,9 +21,6 @@ public class MainController {
     @RequestMapping("/student")
     @ResponseBody
     public Student student() {
-        Student student = new Student();
-        student.setName("Elysia").setSex("女").setSid(123);
-        System.out.println(testValue);
-        return student;
+        return new Student();
     }
 }
