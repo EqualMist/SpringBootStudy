@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+spring:
+  security:
+    user:
+      name: Elysia
+      password: 123456
+      roles:
+        - user
+        - admin
+
+test:
+  name: yaml_value
