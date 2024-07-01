@@ -13,9 +13,8 @@ public class MainController {
     String testValue;
 
     @RequestMapping("/index")
-    @ResponseBody
     public String index() {
-        return "欢迎访问你的第一个Spring Boot项目";
+        return "index";
     }
 
     @RequestMapping("/student")
