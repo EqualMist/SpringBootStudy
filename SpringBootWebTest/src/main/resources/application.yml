@@ -9,6 +9,9 @@ spring:
     password: root@!^*
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  mvc:
+    static-path-pattern: /static/**
+
 
 test:
   name: yaml_value
