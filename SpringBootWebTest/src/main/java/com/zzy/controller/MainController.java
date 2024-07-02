@@ -1,12 +1,14 @@
 package com.zzy.controller;
 
 import com.zzy.entity.Student;
+import com.zzy.listener.TestEvent;
 import com.zzy.service.impl.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +27,12 @@ public class MainController {
     @Resource
     TestService testService;
 
+    @Resource
+    ApplicationContext applicationContext;
+
     @RequestMapping("/login")
     public String login(HttpServletRequest request) {
-        log.info("有人访问了login页面");
+        applicationContext.publishEvent(new TestEvent("有人访问了登陆页面"));
         return "login";
     }
 
