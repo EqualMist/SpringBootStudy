@@ -4,3 +4,7 @@ spring:
 
 test:
   name: yaml_value
+
+#hello:
+#  world:
+#    value: 6666
