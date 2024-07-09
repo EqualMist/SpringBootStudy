@@ -6,9 +6,14 @@ spring:
     host: 127.0.0.1
     port: 6379
     database: 0
+  mail:
+    host: smtp.163.com
+    username: myhazelnut@163.com
+    password: SQVTFOLAPQDJOQLB
 
 test:
   name: yaml_value
+
 
 #hello:
 #  world:
