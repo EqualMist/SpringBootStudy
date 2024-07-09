@@ -1,5 +1,6 @@
 package com.zzy;
 
+import com.zzy.mapper.CacheMapper;
 import com.zzy.service.impl.RedisService;
 import com.zzy.service.impl.TestService;
 import org.junit.jupiter.api.Test;
@@ -16,10 +17,17 @@ class SpringBootWebTestApplicationTests {
     StringRedisTemplate stringRedisTemplate;
     @Resource
     RedisService redisService;
+    @Resource
+    CacheMapper cacheMapper;
+
 
     @Test
     void contextLoads() {
-        redisService.test();
+//        redisService.test();
+
+//        cacheMapper.getStudentName();
+//        cacheMapper.getStudentName();
+//        cacheMapper.getStudentName();
     }
 
 }

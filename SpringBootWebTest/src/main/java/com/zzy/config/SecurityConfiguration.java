@@ -1,5 +1,7 @@
 package com.zzy.config;
 
+import com.zzy.cache.RedisTokenRepository;
+import com.zzy.mapper.AuthServiceRedisVer;
 import com.zzy.service.impl.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +19,13 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+//    @Resource
+//    private UserAuthService userAuthService;
+    // Redis缓存用户验证
     @Resource
-    private UserAuthService userAuthService;
+    private AuthServiceRedisVer authServiceRedisVer;
+    @Resource
+    RedisTokenRepository redisTokenRepository;
     @Resource
     DataSource dataSource;
 
@@ -36,14 +43,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index")
                 .and()
                 .rememberMe()
-                .tokenRepository(new JdbcTokenRepositoryImpl(){{setDataSource(dataSource);}});
+                .tokenRepository(redisTokenRepository);
+//                .tokenRepository(new JdbcTokenRepositoryImpl(){{setDataSource(dataSource);}});
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userAuthService)
+                .userDetailsService(authServiceRedisVer)
+//                .userDetailsService(userAuthService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 }
