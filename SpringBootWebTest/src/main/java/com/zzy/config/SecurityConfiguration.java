@@ -1,17 +1,12 @@
 package com.zzy.config;
 
 import com.zzy.cache.RedisTokenRepository;
-import com.zzy.mapper.AuthServiceRedisVer;
-import com.zzy.service.impl.UserAuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import com.zzy.service.impl.AuthServiceRedisVer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -33,7 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/static/**").permitAll()
+                .antMatchers("/static/**", "/register", "/api/auth/**").permitAll()
                 .anyRequest().hasAnyRole("user", "admin")
                 .and()
                 .formLogin()
@@ -42,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .defaultSuccessUrl("/index")
                 .and()
+                .csrf().disable()
                 .rememberMe()
                 .tokenRepository(redisTokenRepository);
 //                .tokenRepository(new JdbcTokenRepositoryImpl(){{setDataSource(dataSource);}});
