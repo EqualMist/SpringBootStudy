@@ -11,6 +11,13 @@ spring:
     username: myhazelnut@163.com
     password: SQVTFOLAPQDJOQLB
 
+  jpa:
+    #开启SQL语句执行日志信息
+    show-sql: true
+    hibernate:
+      #配置为自动创建
+      ddl-auto: update
+
 test:
   name: yaml_value
 
