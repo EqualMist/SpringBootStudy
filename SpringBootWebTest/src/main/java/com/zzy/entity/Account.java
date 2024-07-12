@@ -22,4 +22,8 @@ public class Account implements Serializable {
     String password;
     @Column(name = "role")
     String role;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "detail_id")
+    AccountDetail detail;
 }

@@ -1,6 +1,7 @@
 package com.zzy;
 
 import com.zzy.entity.Account;
+import com.zzy.entity.AccountDetail;
 import com.zzy.mapper.CacheMapper;
 import com.zzy.repo.AccountRepository;
 import com.zzy.service.impl.RedisService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -70,14 +72,39 @@ class SpringBootWebTestApplicationTests {
 
     @Test
     void testFindAccount() {
-//        Account account = accountRepository.findAccountByUsername("Acheron");
+        Account account = accountRepository.findAccountByUsername("Acheron");
 
 //        Account account = accountRepository.findAccountByUsernameLike("%ly%");
 
-        Account account = accountRepository.findAccountByIdAndUsername(2,"Acheron");
+//        Account account = accountRepository.findAccountByIdAndUsername(2,"Acheron");
+//
+//        boolean flag = accountRepository.existsAccountByUsername("Acheron");
 
-        boolean flag = accountRepository.existsAccountByUsername("Acheron");
-        System.out.println(flag);
+        System.out.println(account);
+    }
+
+    @Transactional   //懒加载属性需要在事务环境下获取，因为repository方法调用完后Session会立即关闭
+    @Test
+    void testPageAccount() {
+        accountRepository.findById(1).ifPresent(account -> {
+            System.out.println(account.getUsername());   //获取用户名
+            System.out.println(account.getDetail());  //获取详细信息（懒加载）
+        });
+    }
+
+    @Test
+    void addAccount(){
+        Account account = new Account();
+        account.setUsername("Rita");
+        account.setPassword("123456");
+        AccountDetail detail = new AccountDetail();
+        detail.setAddress("伦敦");
+        detail.setPhone("1234567890");
+        detail.setEmail("333@qq.com");
+        detail.setRealName("洛丝薇瑟");
+        account.setDetail(detail);
+        account = accountRepository.save(account);
+        System.out.println("插入时，自动生成的主键ID为："+account.getId()+"，外键ID为："+account.getDetail().getId());
     }
 
 }
