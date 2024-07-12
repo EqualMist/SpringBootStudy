@@ -107,4 +107,16 @@ class SpringBootWebTestApplicationTests {
         System.out.println("插入时，自动生成的主键ID为："+account.getId()+"，外键ID为："+account.getDetail().getId());
     }
 
+
+    @Transactional
+    @Test
+    void test() {
+        accountRepository.findById(2).ifPresent(account -> {
+            account.getScoreList().forEach(score -> {
+                System.out.println("课程名称："+score.getSubject().getName());
+                System.out.println("得分："+score.getScore());
+                System.out.println("任课教师："+score.getSubject().getTeacher());
+            });
+        });
+    }
 }

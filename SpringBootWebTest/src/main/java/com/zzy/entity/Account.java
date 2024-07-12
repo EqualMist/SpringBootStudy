@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -23,7 +24,11 @@ public class Account implements Serializable {
     @Column(name = "role")
     String role;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detail_id")
     AccountDetail detail;
+
+    @JoinColumn(name = "uid")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<Score> scoreList;
 }
