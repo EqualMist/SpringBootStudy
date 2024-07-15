@@ -1,13 +1,11 @@
 package com.zzy.service.impl;
 
-import com.zzy.entity.UserData;
 import com.zzy.mapper.MainMapper;
 import com.zzy.service.VerifyService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,7 +33,7 @@ public class VerifyServiceImpl implements VerifyService {
         Random random = new Random();
         int code = random.nextInt(899999) + 100000;
         stringRedisTemplate.opsForValue().set("verify:email:" + email, code + "", 10, TimeUnit.MINUTES);
-        message.setText("您的验证码为："+ code + "。5分钟后失效，请及时完成验证。如果不是本人操作，请忽略。");
+        message.setText("您的验证码为："+ code + "。10分钟后失效，请及时完成验证。如果不是本人操作，请忽略。");
         message.setTo(email);
         message.setFrom(fromEmail);
         // 发送邮件
@@ -49,18 +47,6 @@ public class VerifyServiceImpl implements VerifyService {
         if (verifyCode == null) {
             return false;
         }
-        // 验证成功后，将注册信息写入数据库
-        // 密码加密
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        UserData userData = new UserData();
-        userData.setId(0).setName(username).setEmail(email).setPassword(encoder.encode(password)).setRole("user");
-        // 信息入库
-        int resultInt = mainMapper.registerUserWithEmail(userData);
-        if (resultInt == 0) {
-            return false;
-        }
-        // 删除Redis中的验证码
-        stringRedisTemplate.delete("verify:email:" + email);
         return true;
     }
 }

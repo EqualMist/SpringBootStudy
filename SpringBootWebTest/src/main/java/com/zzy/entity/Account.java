@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
 public class Account implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
@@ -21,14 +21,4 @@ public class Account implements Serializable {
     String username;
     @Column(name = "password")
     String password;
-    @Column(name = "role")
-    String role;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "detail_id")
-    AccountDetail detail;
-
-    @JoinColumn(name = "uid")
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<Score> scoreList;
 }

@@ -2,7 +2,6 @@ package com.zzy.mapper;
 
 import com.zzy.cache.MybatisRedisCache;
 import com.zzy.entity.Account;
-import com.zzy.entity.UserData;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
