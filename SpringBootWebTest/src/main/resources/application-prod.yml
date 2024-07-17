@@ -1,13 +1,31 @@
 spring:
+  profiles:
+    active: '@environment@'
 
-  datasource:
-    url: jdbc:mysql://10.2.14.249:33406/zdb_bm
-    username: root
-    password: root@!^*
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+  mail:
+    host: smtp.163.com
+    username: myhazelnut@163.com
+    password: SQVTFOLAPQDJOQLB
+
+  jpa:
+    #开启SQL语句执行日志信息
+    show-sql: true
+    hibernate:
+      #配置为自动创建
+      ddl-auto: update
 
   mvc:
-    static-path-pattern: /static/**
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-server:
-  port: 8081
+test:
+  name: yaml_value
+
+
+springfox:
+  documentation:
+    enabled: false

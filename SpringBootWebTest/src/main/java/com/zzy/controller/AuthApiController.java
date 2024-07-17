@@ -3,10 +3,12 @@ package com.zzy.controller;
 import com.zzy.entity.resp.RestBean;
 import com.zzy.service.AccountService;
 import com.zzy.service.VerifyService;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+@Api(tags = "账户验证接口", description = "包括用户登录、注册、验证码请求等操作。")
 @RestController
 @RequestMapping("/static/api/auth")
 public class AuthApiController {
@@ -16,8 +18,13 @@ public class AuthApiController {
     @Resource
     AccountService accountService;
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "邮件发送成功"),
+            @ApiResponse(code = 500, message = "邮件发送失败")   //不同返回状态码描述
+    })
+    @ApiOperation("请求邮件验证码")
     @GetMapping("/verify-code")
-    public RestBean<Void> verifyCode(@RequestParam("email") String email) {
+    public RestBean<Void> verifyCode(@ApiParam("邮箱地址") @RequestParam("email") String email) {
         try {
             verifyService.sendVerifyCode(email);
         } catch (Exception e) {
@@ -26,11 +33,15 @@ public class AuthApiController {
         return new RestBean<>(200, "验证码发送成功");
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "注册成功"),
+            @ApiResponse(code = 500, message = "注册失败")   //不同返回状态码描述
+    })
     @PostMapping("/register")
-    public RestBean<Void> register(@RequestParam("username") String username ,
-                             @RequestParam("email") String email,
-                             @RequestParam("verify") String verify,
-                             @RequestParam("password") String password) {
+    public RestBean<Void> register(@ApiParam("用户名") @RequestParam("username") String username ,
+                                   @ApiParam("邮箱地址") @RequestParam("email") String email,
+                                   @ApiParam("验证码") @RequestParam("verify") String verify,
+                                   @ApiParam("密码") @RequestParam("password") String password) {
         boolean resultBoolean = verifyService.doVerifyAndRegister(username, email, verify, password);
         accountService.createAccount(username, password);
         if (resultBoolean) {

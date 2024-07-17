@@ -1,27 +1,3 @@
 spring:
   profiles:
     active: '@environment@'
-
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    database: 0
-  mail:
-    host: smtp.163.com
-    username: myhazelnut@163.com
-    password: SQVTFOLAPQDJOQLB
-
-  jpa:
-    #开启SQL语句执行日志信息
-    show-sql: true
-    hibernate:
-      #配置为自动创建
-      ddl-auto: update
-
-test:
-  name: yaml_value
-
-
-#hello:
-#  world:
-#    value: 6666

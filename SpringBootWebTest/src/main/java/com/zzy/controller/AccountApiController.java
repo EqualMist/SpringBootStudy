@@ -3,6 +3,7 @@ package com.zzy.controller;
 import com.zzy.entity.Account;
 import com.zzy.entity.resp.RestBean;
 import com.zzy.repo.AccountRepository;
+import io.swagger.annotations.Api;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+@Api(tags = "用户信息接口")
 @RestController
 @RequestMapping("/static/api/user")
 public class AccountApiController {
